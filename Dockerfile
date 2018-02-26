@@ -1,4 +1,4 @@
-FROM php:7.2-fpm-alpine
+FROM php:fpm-alpine
 
 USER root
 
@@ -37,6 +37,9 @@ RUN { \
     echo 'upload_max_filesize=13M'; \
   } > /usr/local/etc/php/conf.d/docker-php-upload.ini;
 
+# copy default configuration
+COPY config /usr/local/etc
+
 RUN set -x \
     && deluser www-data \
     && addgroup -g 500 -S www-data \
@@ -44,6 +47,3 @@ RUN set -x \
     && chown www-data: /usr/local/etc
 
 USER www-data
-
-# copy default configuration
-COPY config /usr/local/etc
